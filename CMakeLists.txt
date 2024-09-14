@@ -39,7 +39,7 @@ add_executable(play-dvd
   src/mpv.h)
 
 install(TARGETS play-dvd DESTINATION "bin")
-install(DIRECTORY extra/share DESTINATION .)
+install(DIRECTORY share DESTINATION .)
 
 # package
 set(CPACK_PACKAGE_NAME "play-dvd")
