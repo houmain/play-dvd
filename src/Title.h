@@ -3,6 +3,7 @@
 #include "Rating.h"
 #include <string>
 #include <optional>
+#include <tuple>
 
 struct Cell {
   int first_sector;
