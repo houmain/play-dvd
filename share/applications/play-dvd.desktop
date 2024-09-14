@@ -1,0 +1,26 @@
+[Desktop Entry]
+Type=Application
+Name=DVD Playback
+Name[de]=DVD Wiedergeben
+Comment=Playback DVD with mpv
+Comment[de]=DVD mit mpv abspielen
+Exec=play-dvd
+Icon=play-dvd
+Categories=AudioVideo;
+StartupWMClass=mpv
+Keywords=mpv;media;player;video;dvd;
+Actions=Extras;Other;All;
+
+
+[Desktop Action Extras]
+Name=Extras
+Exec=play-dvd -e
+
+[Desktop Action Other]
+Name=Other
+Exec=play-dvd -o
+
+[Desktop Action All]
+Name=All
+Exec=play-dvd -a
+
