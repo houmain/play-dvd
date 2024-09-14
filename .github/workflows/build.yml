@@ -1,0 +1,54 @@
+# Github Actions configuration file
+name: Build
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - os: ubuntu-22.04
+            package: TGZ
+            
+          - os: ubuntu-22.04
+            package: DEB
+
+          - os: ubuntu-22.04
+            package: RPM
+
+    steps:
+    - name: Setup Linux
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install libdvdread-dev
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_INSTALL_PREFIX=dist ${{matrix.config.configure_args}}
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config Release
+    - name: Install
+      run: cmake --install ${{github.workspace}}/build --config Release
+    - name: Package
+      run: cpack -G ${{ matrix.config.package }} --config ${{github.workspace}}/build/CPackConfig.cmake
+
+    - name: Upload to Github release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: "*.zip;*.tar.gz;*.msi;*.deb;*.rpm"
+        tags: true
+        draft: false
