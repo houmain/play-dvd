@@ -28,14 +28,16 @@ namespace {
 } // namespace
 
 void detect_duplicates(std::vector<Title>& titles) {
+  // implemented in terms of is_subset_of, since there can be
+  // titles with identical cells in different chapters (Three Kings)
   for (auto i = 0u; i < titles.size(); ++i)
     if (auto& title = titles[i];
         !title.chapters.empty()) {
 
       for (auto j = 0u; j < i; ++j)
         if (const auto& other = titles[j];
-            title.set_number == other.set_number &&
-            title.chapters == other.chapters) {
+            is_subset_of(title, other) &&
+            is_subset_of(other, title)) {
           title.duplicate_of = j;
           title.rating = Rating::Duplicate;
           break;

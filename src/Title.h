@@ -9,20 +9,10 @@ struct Cell {
   int first_sector;
   int last_sector;
   Duration duration;
-
-  friend bool operator==(const Cell& a, const Cell& b) {
-    return std::tie(a.first_sector, a.last_sector) ==
-           std::tie(b.first_sector, b.last_sector);
-  }
 };
 
 struct Chapter {
   std::vector<Cell> cells;
-
-  friend bool operator==(const Chapter& a, const Chapter& b) {
-    return std::tie(a.cells) ==
-           std::tie(b.cells);
-  }
 };
 
 struct Title {
